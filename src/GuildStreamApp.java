@@ -17,8 +17,8 @@ public class GuildStreamApp
         Adventurer a7 = new Adventurer("Abrams", 28, "Warrior", 6000.0, List.of(Skill.SWORDSMANSHIP, Skill.HORSEMANSHIP));
         Adventurer a8 = new Adventurer("Dynamo", 30, "Wizard", 100.0, List.of(Skill.HEALING, Skill.MEMECRAFTING, Skill.SWORDSMANSHIP, Skill.RUNECRAFTING));
 
-        guilds.add(new Guild("Amber Heard", new ArrayList<>(List.of(a1, a2, a3, a4))));
-        guilds.add(new Guild("Sapphire Brooch", new ArrayList<>(List.of(a5, a6, a7, a8))));
+        guilds.add(new Guild("Amber Hand", new ArrayList<>(List.of(a1, a2, a3, a4))));
+        guilds.add(new Guild("Sapphire Flame", new ArrayList<>(List.of(a5, a6, a7, a8))));
 
         return guilds;
     }
@@ -46,35 +46,38 @@ public class GuildStreamApp
         return groups;
     }
 
-    public static Object findMostSkilled(List<Guild> guilds)
+    public static Adventurer findMostSkilled(List<Guild> guilds)
     {
         return guilds.stream()
                 .flatMap(g -> g.getAdventurers().stream())
-                .max(Comparator.comparing(a -> a.getSkills().size()));
+                .max(Comparator.comparing(a -> a.getSkills().size()))
+                .orElse(null);
     }
 
-/*
-    public static String rankByAverageAge(List<Guild> guilds)
+
+    public static void rankByAverageAge(List<Guild> guilds)
+    {
+        guilds.stream()
+                .sorted(Comparator.comparingDouble(g ->
+                        g.getAdventurers().stream()
+                                .mapToInt(Adventurer::getAge)
+                                .average()
+                                .orElse(0)
+                ))
+                .forEach(g -> System.out.println(g.getName()));
+    }
+
+
+    public static Map<Skill, Long> skillCountMap(List<Guild> guilds)
     {
         return guilds.stream()
-                .flatMap(a -> a.getAdventurers())
-                .collect()
-    }
-*/
-
-    public static Map<List<Skill>, List<Adventurer>> skillCountMap(List<Guild> guilds)
-    {
-        Map<List<Skill>, List<Adventurer>> skilled = guilds.stream()
                 .flatMap(g -> g.getAdventurers().stream())
-                .collect(Collectors.groupingBy(Adventurer::getSkills));
+                .flatMap(a -> a.getSkills().stream())
+                .collect(Collectors.groupingBy(
+                        skill -> skill,
+                        Collectors.counting())
+                );
 
-        skilled.forEach((skill, adventurers) ->
-        {
-            System.out.println("Skill: " + skill);
-            adventurers.forEach(a -> System.out.println("  - " + a.getName()));
-        });
-
-        return skilled;
     }
 
     public static void bonusGoldEvent(List<Guild> guilds)
@@ -89,15 +92,23 @@ public class GuildStreamApp
     public static void main( String[] args )
     {
         List<Guild> guildData = getData();
-        //System.out.println(guildData);
-        //filterBySkill(guildData, Skill.ARCHERY);
 
-        //groupByRole(guildData);
+        System.out.println("Filtered Adventurers by Skill (Archery)\n");
+        System.out.println(filterBySkill(guildData, Skill.ARCHERY));
 
-        //System.out.println(findMostSkilled(guildData));
-        //skillCountMap(guildData);
+        System.out.println("\nGroups Adventurers By Role\n");
+        groupByRole(guildData);
 
-        //bonusGoldEvent(guildData);
-        //System.out.println(guildData);
+        System.out.println("\nFinds the Adventurer with the Most Skills\n");
+        System.out.println(findMostSkilled(guildData));
+
+        System.out.println("\nRanks Guilds by the Average Age\n");
+        rankByAverageAge(guildData);
+
+        System.out.println("\nShows How Many Adventurers Know Each Skill\n");
+        skillCountMap(guildData).forEach((skill, count) ->
+                System.out.println(skill + " - " + count));
+
+        bonusGoldEvent(guildData);
     }
 }

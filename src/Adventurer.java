@@ -1,5 +1,8 @@
 import java.util.List;
 
+/**
+ * Represents an adventurer with a name, age, role, gold earned, and list of skills.
+ */
 public class Adventurer implements Comparable<Adventurer>
 {
     private String name;
@@ -8,6 +11,15 @@ public class Adventurer implements Comparable<Adventurer>
     private double goldEarned;
     private List<Skill> skills;
 
+    /**
+     * Constructs an Adventurer with given parameters.
+     *
+     * @param name       The adventurer's name.
+     * @param age        The adventurer's age.
+     * @param role       The adventurer's role (e.g., Wizard, Rogue).
+     * @param goldEarned The amount of gold earned by the adventurer.
+     * @param skills     The list of skills the adventurer possesses.
+     */
     public Adventurer(String name, int age, String role,
                       double goldEarned, List<Skill> skills)
         {

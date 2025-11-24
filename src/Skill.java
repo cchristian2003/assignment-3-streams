@@ -1,3 +1,7 @@
+/**
+ * Enum representing different skills an Adventurer can have.
+ */
+
 public enum Skill
 {
     SWORDSMANSHIP,

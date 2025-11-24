@@ -1,8 +1,16 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Application demonstrating the use of streams to manage guilds and adventurers.
+ */
 public class GuildStreamApp
 {
+    /**
+     * Returns a list of sample Guild data with adventurers.
+     *
+     * @return List of Guild objects.
+     */
     public static List<Guild> getData()
     {
         ArrayList<Guild> guilds = new ArrayList<>();
@@ -23,6 +31,13 @@ public class GuildStreamApp
         return guilds;
     }
 
+    /**
+     * Returns a list of adventurers that have a specific skill.
+     *
+     * @param guilds List of guilds to search in.
+     * @param skill  Skill to filter by.
+     * @return List of Adventurer objects with the skill.
+     */
     public static List<Adventurer> filterBySkill(List<Guild> guilds, Skill skill)
     {
         return guilds.stream()
@@ -31,6 +46,12 @@ public class GuildStreamApp
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Groups adventurers by their role and prints each group.
+     *
+     * @param guilds List of guilds.
+     * @return Map of role to adventurers with that role.
+     */
     public static Map<String, List<Adventurer>> groupByRole(List<Guild> guilds)
     {
         Map<String, List<Adventurer>> groups = guilds.stream()
@@ -46,6 +67,12 @@ public class GuildStreamApp
         return groups;
     }
 
+    /**
+     * Finds the adventurer with the most skills.
+     *
+     * @param guilds List of guilds.
+     * @return Adventurer with the most skills, or null if none exist.
+     */
     public static Adventurer findMostSkilled(List<Guild> guilds)
     {
         return guilds.stream()
@@ -54,7 +81,11 @@ public class GuildStreamApp
                 .orElse(null);
     }
 
-
+    /**
+     * Prints the guilds ranked by the average age of their adventurers.
+     *
+     * @param guilds List of guilds.
+     */
     public static void rankByAverageAge(List<Guild> guilds)
     {
         guilds.stream()
@@ -67,7 +98,12 @@ public class GuildStreamApp
                 .forEach(g -> System.out.println(g.getName()));
     }
 
-
+    /**
+     * Counts how many adventurers know each skill.
+     *
+     * @param guilds List of guilds.
+     * @return Map of Skill to count of adventurers who know it.
+     */
     public static Map<Skill, Long> skillCountMap(List<Guild> guilds)
     {
         return guilds.stream()
@@ -80,6 +116,11 @@ public class GuildStreamApp
 
     }
 
+    /**
+     * Adds a 20% gold bonus to adventurers who have earned less than 1000 gold.
+     *
+     * @param guilds List of guilds.
+     */
     public static void bonusGoldEvent(List<Guild> guilds)
     {
         guilds.stream()

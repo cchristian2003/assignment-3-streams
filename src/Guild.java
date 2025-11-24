@@ -1,10 +1,20 @@
 import java.util.List;
 
+
+/**
+ * Represents a guild, which contains a list of adventurers.
+ */
 public class Guild implements Comparable<Guild>
 {
     private String name;
     private List<Adventurer> adventurers;
 
+    /**
+     * Constructs a Guild with a given name and list of adventurers.
+     *
+     * @param name        The name of the guild.
+     * @param adventurers The list of adventurers in the guild.
+     */
     public Guild(String name, List<Adventurer> adventurers)
     {
         this.name = name;
